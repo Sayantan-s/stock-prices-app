@@ -5,3 +5,7 @@
 - React
 - TypeScript
 - ApexCharts (For charts)
+
+## References
+
+-
