@@ -1,7 +1,21 @@
+import { useEffect } from 'react';
+import { getStockTimeSeries } from '@api/index';
+import { TimeSeriesTracker } from '@components/organism/TimeSeriesTracker';
+
 const App = () => {
+  useEffect(() => {
+    (async () => {
+      const data = await getStockTimeSeries({
+        symbol: 'AAPL:NASDAQ',
+        period: '1D',
+      });
+      console.log(data);
+    })();
+  }, []);
+
   return (
     <div className="content">
-      <p className="text-red-600">hello world</p>
+      <TimeSeriesTracker />
     </div>
   );
 };
