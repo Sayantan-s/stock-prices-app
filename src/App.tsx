@@ -1,21 +1,23 @@
-import { useEffect } from 'react';
-import { getStockTimeSeries } from '@api/index';
 import { TimeSeriesTracker } from '@components/organism/TimeSeriesTracker';
+import {
+  DEFAULT_PERIOD,
+  DEFAULT_SYMBOL,
+} from '@components/organism/TimeSeriesTracker/type';
+
+const NOOP = () => {};
 
 const App = () => {
-  useEffect(() => {
-    (async () => {
-      const data = await getStockTimeSeries({
-        symbol: 'AAPL:NASDAQ',
-        period: '1D',
-      });
-      console.log(data);
-    })();
-  }, []);
-
   return (
     <div className="content">
-      <TimeSeriesTracker />
+      <TimeSeriesTracker
+        period={DEFAULT_PERIOD}
+        symbol={DEFAULT_SYMBOL}
+        onChangePeriod={NOOP}
+        onChangeSymbol={NOOP}
+      >
+        <TimeSeriesTracker.StockInformation />
+        <TimeSeriesTracker.TimeSeriesGraph />
+      </TimeSeriesTracker>
     </div>
   );
 };

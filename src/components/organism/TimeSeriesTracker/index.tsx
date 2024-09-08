@@ -1,13 +1,45 @@
 import { useGetStockTimeSeries } from '@api/timeseries';
-import { DEFAULT_PERIOD, DEFAULT_SYMBOL } from './type';
+import {
+  DEFAULT_PERIOD,
+  DEFAULT_SYMBOL,
+  IProps,
+  ITimeTrackerContextValues,
+} from './type';
+import { FC, PropsWithChildren, createContext, useContext } from 'react';
+import { StockInformation } from './StockInformation';
+import { TimeSeriesGraph } from './TimeSeriesGraph';
 
-export const TimeSeriesTracker = () => {
-  const { data } = useGetStockTimeSeries({
-    period: DEFAULT_PERIOD,
-    symbol: DEFAULT_SYMBOL,
+const TimeSeriesTrackerContext =
+  createContext<ITimeTrackerContextValues | null>(null);
+
+const Root: FC<PropsWithChildren<IProps>> = ({
+  children,
+  period,
+  symbol,
+  onChangePeriod,
+  onChangeSymbol,
+}) => {
+  const [query, timeseriesData, setTimeSeriesData] = useGetStockTimeSeries({
+    period,
+    symbol,
   });
 
-  console.log(data);
+  const { isLoading } = query;
 
-  return <div>{JSON.stringify(data)}</div>;
+  console.log(timeseriesData);
+
+  return (
+    <TimeSeriesTrackerContext.Provider
+      value={[query, timeseriesData, setTimeSeriesData]}
+    >
+      {children}
+    </TimeSeriesTrackerContext.Provider>
+  );
 };
+
+export const useTimeTrackerContext = () => useContext(TimeSeriesTrackerContext);
+
+export const TimeSeriesTracker = Object.assign(Root, {
+  StockInformation,
+  TimeSeriesGraph,
+});

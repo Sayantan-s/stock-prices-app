@@ -16,6 +16,10 @@ export interface ITimeSeriesOutput {
   period: string;
 }
 
+export interface ITimeSeriesState extends ITimeSeriesOutput {
+  dates: string[];
+}
+
 export interface TimeSeries {
   [date: string]: TimeSeriesData;
 }
