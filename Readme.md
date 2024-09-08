@@ -1,6 +1,7 @@
-readme.md
+## Features
 
-readme.mdreadme.mdreadme.mdreadme.md
-readme.mdreadme.mdreadme.mdreadme.mdreadme.md
-readme.md
-readme.md
+## Techstack
+
+- React
+- TypeScript
+- ApexCharts (For charts)
