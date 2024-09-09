@@ -1,8 +1,11 @@
 ## Features
 
 [x] Change the vizualization on period change <br />
-[x] Show Graph on fullscreen when asked <br />
+[x] Show CandleStick Graph on fullscreen when fullscreen<br />
 [x] Show Comparison with other symbols <br />
+[x] Responsivness of the sapplication <br />
+[x] Reusibility of "< StockMarketTracker />" component <br />
+[x] Error Handling <br />
 
 ## Techstack
 
