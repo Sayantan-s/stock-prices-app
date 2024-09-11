@@ -2,13 +2,14 @@ import { useStockerMarketTracker } from '@components/organism/StockMarketTracker
 import { periods } from '@components/organism/StockMarketTracker/type';
 import { useState } from 'react';
 import { StockMarketChartTabs } from './StocketmarketChartTabs';
+import { Link } from 'react-router-dom';
+import { StockCompare } from './StockCompare';
 
 export const StockmarketChartController = () => {
-  const { period, onChangePeriod, setPeriod } = useStockerMarketTracker();
+  const { period, onChangePeriod, symbol } = useStockerMarketTracker();
   const [localPeriod, setLocalPeriod] = useState(period);
 
   const handleChangePeriodValue = (value: string) => {
-    setPeriod(value as (typeof periods)[number]);
     setLocalPeriod(value);
     onChangePeriod(value);
   };
@@ -16,8 +17,10 @@ export const StockmarketChartController = () => {
   return (
     <div className="flex justify-between p-5">
       <div>
-        <button>Fullscreen</button>
-        <button>Compare</button>
+        <Link to={`/chart?symbol=${symbol}`} target="_blank">
+          Fullscreen
+        </Link>
+        <StockCompare />
       </div>
       <StockMarketChartTabs
         value={localPeriod}

@@ -1,13 +1,14 @@
 import { useStockerMarketTracker } from '@components/organism/StockMarketTracker';
 import { ApexOptions } from 'apexcharts';
-import { time } from 'framer-motion/client';
 import * as ApexChart from 'react-apexcharts';
 
 const PRIMARY_COLOR = '#4a40ee';
 const SECONDARY_COLOR = '#e9eaed';
 
 export const Chart = () => {
-  const { state: timeseries } = useStockerMarketTracker();
+  const { state: timeseries, IS_STATE_POPULATED } = useStockerMarketTracker();
+
+  // console.log(timeseries, 'DATA');
 
   const CHART_OPTIONS: ApexOptions = {
     chart: {
@@ -18,7 +19,9 @@ export const Chart = () => {
         enabled: true,
         autoScaleYaxis: true,
       },
-      toolbar: { show: false },
+      toolbar: {
+        show: false,
+      },
     },
     dataLabels: {
       enabled: false,
@@ -46,15 +49,16 @@ export const Chart = () => {
       categories: timeseries.dates,
       axisBorder: { show: false },
       axisTicks: { show: false },
-      labels: { show: false },
+      labels: { show: false, offsetX: 0, offsetY: 0 },
       tooltip: {
         enabled: false,
       },
+      tickPlacement: 'on', // Ensures the ticks are placed directly on the grid
     },
     yaxis: {
       axisBorder: { show: false },
       axisTicks: { show: false },
-      labels: { show: false },
+      labels: { show: false, offsetX: 0, offsetY: 0 },
       tooltip: {
         enabled: false,
       },
@@ -76,11 +80,17 @@ export const Chart = () => {
           show: false,
         },
       },
+      padding: {
+        left: -14,
+        right: -4,
+        top: 0,
+        bottom: 0,
+      },
     },
     tooltip: {
       enabled: true,
       custom: function ({ series, seriesIndex, dataPointIndex }) {
-        return `<div class="bg-slate-800 text-white px-2 py-1 rounded-md border-none outline-none">${series[seriesIndex][dataPointIndex]}</div>`;
+        return `<div class="bg-secondary-950 text-white px-2 py-1 rounded-md border-none outline-none">${series[seriesIndex][dataPointIndex]}</div>`;
       },
       fixed: {
         enabled: false,
@@ -115,26 +125,34 @@ export const Chart = () => {
     {
       name: 'Price',
       type: 'area',
-      data: timeseries.dates.map((date) => timeseries.time_series[date].price),
+      data: IS_STATE_POPULATED
+        ? timeseries.dates.map((date) => timeseries.time_series[date].price)
+        : [],
     },
     {
       name: 'Change',
       type: 'column',
-      data: timeseries.dates.map((date) =>
-        Math.floor(timeseries.time_series[date].change),
-      ),
+      data: IS_STATE_POPULATED
+        ? timeseries.dates.map((date) =>
+            Math.floor(timeseries.time_series[date].change),
+          )
+        : [],
     },
   ];
 
+  console.log(CHART_SERIES, IS_STATE_POPULATED);
+
   return (
     <div className="w-full">
-      <ApexChart.default
-        options={CHART_OPTIONS}
-        series={CHART_SERIES}
-        type="area"
-        width="100%"
-        height={'450px'}
-      />
+      {IS_STATE_POPULATED ? (
+        <ApexChart.default
+          options={CHART_OPTIONS}
+          series={CHART_SERIES}
+          type="area"
+          width="100%"
+          height={'auto'}
+        />
+      ) : null}
     </div>
   );
 };

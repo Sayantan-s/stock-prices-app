@@ -1,6 +1,10 @@
 import { useGetStockTimeSeriesEquity } from '@api/index';
 import { StockMarketChartTabs } from '@components/organism/StockMarketTracker/Info/Tabs/StockmarketChart/StocketmarketChartTabs';
-import { periods, symbols } from '@components/organism/StockMarketTracker/type';
+import {
+  PERIOD,
+  periods,
+  symbols,
+} from '@components/organism/StockMarketTracker/type';
 import { ApexOptions } from 'apexcharts';
 import { useState } from 'react';
 import * as ApexChart from 'react-apexcharts';
@@ -124,8 +128,7 @@ export const FullScreenChart = () => {
     },
   };
 
-  const handleChangePeriod = (value: string) =>
-    setPeriod(value as (typeof periods)[number]);
+  const handleChangePeriod = (value: string) => setPeriod(value as PERIOD);
 
   if (!symbol) throw new Error('There is no such symbol!');
 
@@ -140,7 +143,7 @@ export const FullScreenChart = () => {
           series={SERIES}
           type="candlestick"
           width="100%"
-          height={'auto'}
+          height={'800px'}
         />
       ) : null}
     </div>

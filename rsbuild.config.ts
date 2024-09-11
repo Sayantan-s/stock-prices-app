@@ -9,6 +9,7 @@ export default defineConfig({
       '@api': './src/api',
       '@services': './src/services',
       '@pages': './src/pages',
+      "@hooks": "./src/hooks/*"
     },
   },
 });

@@ -1,14 +1,16 @@
 import { useGetStockTimeSeries } from '@api/timeseries';
-import { IProps, ITimeTrackerContextValues } from './type';
+import { IProps, ITimeTrackerContextValues, periods } from './type';
 import {
   FC,
   PropsWithChildren,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 import { Quote } from './Quote';
 import { Info } from './Info';
+import { ITimeSeriesState } from '@api/timeseries/type';
 
 const TimeSeriesTrackerContext =
   createContext<ITimeTrackerContextValues | null>(null);
@@ -20,19 +22,20 @@ const Root: FC<PropsWithChildren<IProps>> = ({
   onChangePeriod,
   onChangeSymbol,
 }) => {
-  const [localPeriod, setLocalPeriod] = useState(period);
-  const [localSymbol, setLocalSymbol] = useState(symbol);
-  const [query, timeseriesData, setTimeSeriesData] = useGetStockTimeSeries({
-    period: localPeriod,
-    symbol: localSymbol,
+  const query = useGetStockTimeSeries({
+    period,
+    symbol,
   });
+  const [timeseriesData, setTimeSeriesData] = useState<ITimeSeriesState>(
+    {} as ITimeSeriesState,
+  );
 
-  const { isLoading, isFetched, isRefetching, isFetching, isSuccess } = query;
+  const { isSuccess, data } = query;
 
-  const IS_STATE_POPULATED = JSON.stringify(timeseriesData) !== '{}';
-  const IS_FETCHING_INITIALLY = !IS_STATE_POPULATED && isLoading;
-
-  console.log(IS_STATE_POPULATED);
+  useEffect(() => {
+    if (isSuccess && data)
+      setTimeSeriesData({ ...data, dates: Object.keys(data.time_series) });
+  }, [data, isSuccess]);
 
   return (
     <TimeSeriesTrackerContext.Provider
@@ -40,16 +43,15 @@ const Root: FC<PropsWithChildren<IProps>> = ({
         query,
         state: timeseriesData,
         setState: setTimeSeriesData,
-        period: localPeriod,
-        symbol: localSymbol,
-        setPeriod: setLocalPeriod,
-        setSymbol: setLocalSymbol,
+        period,
+        symbol,
         onChangePeriod,
         onChangeSymbol,
+        IS_STATE_POPULATED: JSON.stringify(timeseriesData) !== '{}',
       }}
     >
-      <div className="bg-white text-sm shadow border rounded-xl w-full max-w-[50rem] h-[38rem]">
-        {IS_STATE_POPULATED ? children : null}
+      <div className="bg-white overflow-hidden text-sm shadow-lg shadow-slate-100/50 border border-slate-100 rounded-xl w-full max-w-[50rem] h-[42rem]">
+        {children}
       </div>
     </TimeSeriesTrackerContext.Provider>
   );

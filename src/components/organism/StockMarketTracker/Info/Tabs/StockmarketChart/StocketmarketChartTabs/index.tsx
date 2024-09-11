@@ -1,30 +1,43 @@
-import { FC, memo, useTransition } from 'react';
-import * as RadioGroup from '@radix-ui/react-radio-group';
+import { FC } from 'react';
+import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { IProps } from './type';
 import { periods } from '@components/organism/StockMarketTracker/type';
+import { motion } from 'framer-motion';
 
 const Root: FC<IProps> = ({ value, onChange }) => {
   const handleChangePeriodValue = (v: string) => onChange(v);
-
-  console.log(value);
-
   return (
-    <RadioGroup.Root
+    <ToggleGroup.Root
       className="flex space-x-1"
+      type="single"
       value={value}
       onValueChange={handleChangePeriodValue}
     >
-      {periods.map((period) => (
-        <RadioGroup.Item
+      {periods.map((period, index) => (
+        <ToggleGroup.Item
           value={period}
           key={period}
-          className={`${value === period ? 'bg-purple-500 text-white' : ''} w-12`}
+          id={`${index}`}
+          tabIndex={index}
+          className={`w-12 px-2 py-1.5 rounded-md relative`}
         >
-          {period}
-        </RadioGroup.Item>
+          {value === period ? (
+            <motion.div
+              layoutId="active-pill"
+              className="bg-primary-600 inset-0 rounded-md absolute z-50 flex items-center justify-center  text-neutral-50"
+            >
+              {period}
+            </motion.div>
+          ) : null}
+          <span
+            className={`relative ${value === period ? 'text-neutral-50' : 'text-neutral-700'}`}
+          >
+            {period}
+          </span>
+        </ToggleGroup.Item>
       ))}
-    </RadioGroup.Root>
+    </ToggleGroup.Root>
   );
 };
 
-export const StockMarketChartTabs = memo(Root);
+export const StockMarketChartTabs = Root;

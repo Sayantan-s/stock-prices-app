@@ -11,14 +11,16 @@ export const periods = [
   '5Y',
   'MAX',
 ] as const;
+export type PERIOD = (typeof periods)[number];
 export const symbols = ['AAPL', 'MSFT:NASDAQ', 'MSFT', 'DJI', 'VTSAX'] as const;
+export type SYMBOL = (typeof symbols)[number];
 
 export const DEFAULT_PERIOD = periods[4];
 export const DEFAULT_SYMBOL = symbols[0];
 
 export interface IProps {
-  period: (typeof periods)[number];
-  symbol: (typeof symbols)[number];
+  period: PERIOD;
+  symbol: SYMBOL;
   onChangePeriod: (period: string) => void;
   onChangeSymbol: (symbol: string) => void;
 }
@@ -29,8 +31,7 @@ export type ITimeTrackerContextValues = {
   setState: React.Dispatch<React.SetStateAction<ITimeSeriesState>>;
   period: string;
   symbol: string;
-  setPeriod: React.Dispatch<React.SetStateAction<IProps['period']>>;
-  setSymbol: React.Dispatch<React.SetStateAction<IProps['symbol']>>;
   onChangePeriod: (period: string) => void;
   onChangeSymbol: (symbol: string) => void;
+  IS_STATE_POPULATED: boolean;
 };
