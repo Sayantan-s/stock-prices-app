@@ -9,6 +9,10 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { ITimeSeriesOutput, ITimeSeriesState } from './type';
 import data from '../data/aapl.json';
+import equity from '../data/applequity.json';
+
+export const TIMESERIES_QUERY_KEY = 'TIMESERIES_QUERY_KEY';
+export const TIMESERIES_EQUITY_QUERY_KEY = 'TIMESERIES_EQUITY_QUERY_KEY';
 
 export const getStockTimeSeries = async (
   params: IStockAPIEndpintsInputs[IStockAPIEndpints.timeSeries]['params'],
@@ -25,8 +29,6 @@ export const getStockTimeSeries = async (
     }
   }
 };
-
-export const TIMESERIES_QUERY_KEY = 'TIMESERIES_QUERY_KEY';
 
 export const useGetStockTimeSeries = (
   params: IStockAPIEndpintsInputs[IStockAPIEndpints.timeSeries]['params'],
@@ -54,3 +56,32 @@ export const useGetStockTimeSeries = (
 
   return [result, state, setState];
 };
+
+export const getStockTimeSeriesEquity = async (
+  params: IStockAPIEndpintsInputs[IStockAPIEndpints.timeSeries]['params'],
+) => {
+  try {
+    // const res = await api.get<
+    //   IStockAPIEndpintsOutputs[IStockAPIEndpints.timeSeriesEquity]
+    // >(IStockAPIEndpints.timeSeriesEquity, {
+    //   params: params,
+    // });
+    // return res.data.data;
+    return equity.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      console.log(error);
+    }
+  }
+};
+
+export const useGetStockTimeSeriesEquity = (
+  params: IStockAPIEndpintsInputs[IStockAPIEndpints.timeSeries]['params'],
+) =>
+  useQuery({
+    queryKey: [params, TIMESERIES_EQUITY_QUERY_KEY],
+    queryFn: async ({ queryKey: [p] }) =>
+      getStockTimeSeriesEquity(
+        p as IStockAPIEndpintsInputs[IStockAPIEndpints.timeSeries]['params'],
+      ),
+  });

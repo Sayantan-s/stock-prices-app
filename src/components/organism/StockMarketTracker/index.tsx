@@ -32,6 +32,8 @@ const Root: FC<PropsWithChildren<IProps>> = ({
   const IS_STATE_POPULATED = JSON.stringify(timeseriesData) !== '{}';
   const IS_FETCHING_INITIALLY = !IS_STATE_POPULATED && isLoading;
 
+  console.log(IS_STATE_POPULATED);
+
   return (
     <TimeSeriesTrackerContext.Provider
       value={{
@@ -46,7 +48,7 @@ const Root: FC<PropsWithChildren<IProps>> = ({
         onChangeSymbol,
       }}
     >
-      <div className="bg-white shadow border rounded-xl w-full max-w-[50rem] h-[38rem]">
+      <div className="bg-white text-sm shadow border rounded-xl w-full max-w-[50rem] h-[38rem]">
         {IS_STATE_POPULATED ? children : null}
       </div>
     </TimeSeriesTrackerContext.Provider>

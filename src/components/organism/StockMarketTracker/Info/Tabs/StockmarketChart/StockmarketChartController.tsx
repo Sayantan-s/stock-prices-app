@@ -1,16 +1,16 @@
 import { useStockerMarketTracker } from '@components/organism/StockMarketTracker';
 import { periods } from '@components/organism/StockMarketTracker/type';
-import * as RadioGroup from '@radix-ui/react-radio-group';
 import { useState } from 'react';
+import { StockMarketChartTabs } from './StocketmarketChartTabs';
 
 export const StockmarketChartController = () => {
   const { period, onChangePeriod, setPeriod } = useStockerMarketTracker();
   const [localPeriod, setLocalPeriod] = useState(period);
 
   const handleChangePeriodValue = (value: string) => {
+    setPeriod(value as (typeof periods)[number]);
     setLocalPeriod(value);
     onChangePeriod(value);
-    setPeriod(value as (typeof periods)[number]);
   };
 
   return (
@@ -19,21 +19,10 @@ export const StockmarketChartController = () => {
         <button>Fullscreen</button>
         <button>Compare</button>
       </div>
-      <RadioGroup.Root
-        className="flex space-x-1"
+      <StockMarketChartTabs
         value={localPeriod}
-        onValueChange={handleChangePeriodValue}
-      >
-        {periods.map((period) => (
-          <RadioGroup.Item
-            value={period}
-            key={period}
-            className='data-[state="checked"]:bg-purple-500 data-[state="checked"]:text-white w-12'
-          >
-            {period}
-          </RadioGroup.Item>
-        ))}
-      </RadioGroup.Root>
+        onChange={handleChangePeriodValue}
+      />
     </div>
   );
 };

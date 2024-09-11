@@ -1,5 +1,6 @@
 import { useStockerMarketTracker } from '@components/organism/StockMarketTracker';
 import { ApexOptions } from 'apexcharts';
+import { time } from 'framer-motion/client';
 import * as ApexChart from 'react-apexcharts';
 
 const PRIMARY_COLOR = '#4a40ee';
@@ -24,6 +25,8 @@ export const Chart = () => {
     },
     markers: {
       size: 0,
+      colors: PRIMARY_COLOR,
+      strokeColors: ['#fff'],
     },
     legend: {
       show: false,
@@ -36,7 +39,7 @@ export const Chart = () => {
         inverseColors: false,
         opacityFrom: 0.59,
         opacityTo: 0,
-        stops: [30, 90, 100],
+        stops: [10, 90, 100],
       },
     },
     xaxis: {
@@ -77,42 +80,42 @@ export const Chart = () => {
     tooltip: {
       enabled: true,
       custom: function ({ series, seriesIndex, dataPointIndex }) {
-        return `<div>${series[seriesIndex][dataPointIndex]}</div>`;
+        return `<div class="bg-slate-800 text-white px-2 py-1 rounded-md border-none outline-none">${series[seriesIndex][dataPointIndex]}</div>`;
       },
       fixed: {
         enabled: false,
         position: 'topRight',
-        offsetX: 0,
-        offsetY: 0,
       },
     },
-    // annotations: {
-    //   points: [
-    //     {
-    //       x: 0, // X-axis value corresponding to the last data point
-    //       y: 1, // Y-axis value for the last data point
-    //       marker: {
-    //         size: 0, // Hide the default marker
-    //       },
-    //       label: {
-    //         offsetY: 0,
-    //         style: {
-    //           cssClass: '.latest-marker',
-    //         },
-    //         text: `mnop`, // Custom HTML div
-    //       },
-    //     },
-    //   ],
-    // },
+    annotations: {
+      yaxis: [
+        {
+          y: timeseries.previous_close,
+          label: {
+            style: {
+              color: '#fff',
+              background: PRIMARY_COLOR,
+              padding: { top: 4, left: 4, right: 8, bottom: 8 },
+              fontFamily: 'inherit',
+              fontSize: '0.8rem',
+            },
+
+            text: timeseries.previous_close + '',
+            borderColor: 'none',
+            borderRadius: 4,
+            offsetX: 3,
+            orientation: 'vertical',
+          },
+        },
+      ],
+    },
   };
 
   const CHART_SERIES = [
     {
       name: 'Price',
       type: 'area',
-      data: timeseries.dates.map((date) =>
-        Math.floor(timeseries.time_series[date].price),
-      ),
+      data: timeseries.dates.map((date) => timeseries.time_series[date].price),
     },
     {
       name: 'Change',

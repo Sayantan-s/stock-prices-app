@@ -11,13 +11,7 @@ export const periods = [
   '5Y',
   'MAX',
 ] as const;
-export const symbols = [
-  'AAPL:NASDAQ',
-  'MSFT:NASDAQ',
-  'MSFT',
-  'DJI',
-  'VTSAX',
-] as const;
+export const symbols = ['AAPL', 'MSFT:NASDAQ', 'MSFT', 'DJI', 'VTSAX'] as const;
 
 export const DEFAULT_PERIOD = periods[4];
 export const DEFAULT_SYMBOL = symbols[0];

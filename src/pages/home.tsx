@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const NOOP = () => {};
 
-const App = () => {
+export const Home = () => {
   const [period, setPeriod] = useState(DEFAULT_PERIOD);
   const [symbol, setSymbol] = useState(DEFAULT_SYMBOL);
 
@@ -25,5 +25,3 @@ const App = () => {
     </div>
   );
 };
-
-export default App;

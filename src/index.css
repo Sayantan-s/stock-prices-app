@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.apexcharts-tooltip {
+  background: none !important;
+  border: none !important;
+}
+
+#SvgjsRect39292 {
+  width: 400px !important;
+  height: 400px !important;
+}
+
+.apexcharts-yaxis-annotations line {
+  display: none !important;
+}
+
+.apexcharts-yaxis-annotations text {
+  transform: translateX(-10px) !important;
+}
