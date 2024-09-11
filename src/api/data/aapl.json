@@ -1,17 +1,17 @@
 {
   "status": "OK",
-  "request_id": "b2e2eb6b-ff36-468a-81fd-6605d9222fde",
+  "request_id": "cb5961e1-a81c-4b68-878e-4386d636d730",
   "data": {
     "symbol": "AAPL:NASDAQ",
     "type": "stock",
-    "price": 220.2,
+    "price": 220.91,
     "previous_close": 220.82,
-    "change": -0.62,
-    "change_percent": -0.2808,
-    "pre_or_post_market": 221.03,
-    "pre_or_post_market_change": 0.89,
-    "pre_or_post_market_change_percent": 0.4043,
-    "last_update_utc": "2024-09-09 16:49:52",
+    "change": 0.09,
+    "change_percent": 0.0408,
+    "pre_or_post_market": 218.3,
+    "pre_or_post_market_change": -2.61,
+    "pre_or_post_market_change_percent": -1.1815,
+    "last_update_utc": "2024-09-10 08:22:36",
     "time_series": {
       "2024-01-02 16:00:00": {
         "price": 185.64,
@@ -1045,10 +1045,10 @@
         "change_percent": 0.1895,
         "volume": 48423011
       },
-      "2024-09-09 12:47:00": {
-        "price": 220.2,
-        "change": 34.56,
-        "change_percent": 0.1862
+      "2024-09-09 16:00:00": {
+        "price": 220.91,
+        "change": 35.27,
+        "change_percent": 0.19
       }
     },
     "key_events": [],

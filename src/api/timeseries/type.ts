@@ -38,3 +38,35 @@ export interface ITimeSeriesInput {
     period: string;
   };
 }
+
+export interface ITimeSeriesOutputEquity {
+  symbol: string;
+  exchange: string;
+  type: string;
+  price: number;
+  day_low: number;
+  day_high: number;
+  year_low: number;
+  year_high: number;
+  currency: string;
+  volume: number;
+  exchange_timezone: string;
+  exchange_timezone_short: string;
+  exchange_timezone_utc_offset_sec: number;
+  full_exchange_name: string;
+  exchange_data_max_delay_sec: number;
+  time_series: ISeries[];
+  period: string;
+  interval: string;
+}
+
+export interface ISeries {
+  datetime: string;
+  open: number;
+  close: number;
+  high: number;
+  low: number;
+  volume: number;
+  change: number;
+  change_percent: number;
+}
