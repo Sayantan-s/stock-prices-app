@@ -5,6 +5,7 @@ import { StockSelector } from './StockSelector';
 import { useSingleStockTimeSeries } from '@api/timeseries';
 import Chart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
+import { PlusCircledIcon } from '@radix-ui/react-icons';
 const PRIMARY_COLOR = '#4a40ee';
 const SECONDARY_COLOR = '#e9eaed';
 
@@ -150,7 +151,10 @@ export const StockCompare = () => {
 
   return (
     <Dialog>
-      <Dialog.Trigger>Compare</Dialog.Trigger>
+      <Dialog.Trigger className="flex items-center space-x-1 text-neutral-700">
+        <PlusCircledIcon />
+        <span>Compare</span>
+      </Dialog.Trigger>
       <Dialog.Content className="bg-white border-none">
         <Dialog.Header className="p-6">
           <Dialog.Title>Compare Stock Performance</Dialog.Title>

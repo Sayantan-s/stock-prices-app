@@ -1,11 +1,14 @@
-import { useStockerMarketTracker } from '.';
+import { useStockerMarketTracker } from '..';
+import { LoadingQuote } from './loading';
 
 export const Quote = () => {
-  const { state } = useStockerMarketTracker();
+  const { state, IS_LOADING, IS_SUCCESS } = useStockerMarketTracker();
 
   const isProfit = state.change > 0;
 
-  return (
+  return IS_LOADING || !IS_SUCCESS ? (
+    <LoadingQuote />
+  ) : IS_SUCCESS ? (
     <div className="p-5">
       <h1 className="text-6xl font-medium text-secondary-950 flex justify-start">
         {state?.price?.toFixed(2)}{' '}
@@ -17,5 +20,5 @@ export const Quote = () => {
         {isProfit ? '+' : '-'} {state.change} ({state.change_percent}%)
       </p>
     </div>
-  );
+  ) : null;
 };

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { IProps } from './type';
 import { periods } from '@components/organism/StockMarketTracker/type';
@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 
 const Root: FC<IProps> = ({ value, onChange }) => {
   const handleChangePeriodValue = (v: string) => onChange(v);
+
   return (
     <ToggleGroup.Root
       className="flex space-x-1"
@@ -29,15 +30,11 @@ const Root: FC<IProps> = ({ value, onChange }) => {
               {period}
             </motion.div>
           ) : null}
-          <span
-            className={`relative ${value === period ? 'text-neutral-50' : 'text-neutral-700'}`}
-          >
-            {period}
-          </span>
+          <span className={`relative text-neutral-700`}>{period}</span>
         </ToggleGroup.Item>
       ))}
     </ToggleGroup.Root>
   );
 };
 
-export const StockMarketChartTabs = Root;
+export const StockMarketChartTabs = memo(Root);

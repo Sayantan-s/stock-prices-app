@@ -30,7 +30,7 @@ const Root: FC<PropsWithChildren<IProps>> = ({
     {} as ITimeSeriesState,
   );
 
-  const { isSuccess, data } = query;
+  const { isSuccess, data, isFetching } = query;
 
   useEffect(() => {
     if (isSuccess && data)
@@ -47,10 +47,11 @@ const Root: FC<PropsWithChildren<IProps>> = ({
         symbol,
         onChangePeriod,
         onChangeSymbol,
-        IS_STATE_POPULATED: JSON.stringify(timeseriesData) !== '{}',
+        IS_SUCCESS: JSON.stringify(timeseriesData) !== '{}',
+        IS_LOADING: JSON.stringify(timeseriesData) === '{}' && isFetching,
       }}
     >
-      <div className="bg-white overflow-hidden text-sm shadow-lg shadow-slate-100/50 border border-slate-100 rounded-xl w-full max-w-[50rem] h-[42rem]">
+      <div className="bg-white overflow-hidden text-sm shadow-lg shadow-slate-100/50 border border-slate-100 rounded-xl w-full max-w-[50rem] h-[50rem]">
         {children}
       </div>
     </TimeSeriesTrackerContext.Provider>

@@ -24,15 +24,18 @@ export const TIMESERIES_QUERY_KEY = 'TIMESERIES_QUERY_KEY';
 export const TIMESERIES_QUERY_SINGLE_KEY = 'TIMESERIES_QUERY_SINGLE_KEY';
 export const TIMESERIES_EQUITY_QUERY_KEY = 'TIMESERIES_EQUITY_QUERY_KEY';
 
+const sleep = <T>(data: T) =>
+  new Promise<T>((resolve) => setTimeout(() => resolve(data), 2000));
+
 export const getStockTimeSeries = async (
   params: IStockAPIEndpintsInputs[IStockAPIEndpints.timeSeries]['params'],
 ) => {
   try {
-    // const res = await api.get<
-    //   IStockAPIEndpintsOutputs[IStockAPIEndpints.timeSeries]
-    // >(IStockAPIEndpints.timeSeries, { params: { language: 'en', ...params } });
-    // return res.data.data;
-    return data.data;
+    const res = await api.get<
+      IStockAPIEndpintsOutputs[IStockAPIEndpints.timeSeries]
+    >(IStockAPIEndpints.timeSeries, { params: { language: 'en', ...params } });
+    return res.data.data;
+    // return await sleep(data.data);
   } catch (error) {
     if (isAxiosError(error)) {
       console.log(error);
@@ -56,13 +59,13 @@ export const getStockTimeSeriesEquity = async (
   params: IStockAPIEndpintsInputs[IStockAPIEndpints.timeSeries]['params'],
 ) => {
   try {
-    // const res = await api.get<
-    //   IStockAPIEndpintsOutputs[IStockAPIEndpints.timeSeriesEquity]
-    // >(IStockAPIEndpints.timeSeriesEquity, {
-    //   params: params,
-    // });
-    // return res.data.data;
-    return equity.data;
+    const res = await api.get<
+      IStockAPIEndpintsOutputs[IStockAPIEndpints.timeSeriesEquity]
+    >(IStockAPIEndpints.timeSeriesEquity, {
+      params: params,
+    });
+    return res.data.data;
+    // return equity.data;
   } catch (error) {
     if (isAxiosError(error)) {
       console.log(error);

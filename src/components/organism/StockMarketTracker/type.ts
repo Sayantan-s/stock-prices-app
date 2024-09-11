@@ -33,5 +33,6 @@ export type ITimeTrackerContextValues = {
   symbol: string;
   onChangePeriod: (period: string) => void;
   onChangeSymbol: (symbol: string) => void;
-  IS_STATE_POPULATED: boolean;
+  IS_LOADING: boolean;
+  IS_SUCCESS: boolean;
 };

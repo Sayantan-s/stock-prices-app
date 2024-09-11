@@ -1,12 +1,13 @@
 import { useStockerMarketTracker } from '@components/organism/StockMarketTracker';
-import { periods } from '@components/organism/StockMarketTracker/type';
 import { useState } from 'react';
-import { StockMarketChartTabs } from './StocketmarketChartTabs';
-import { Link } from 'react-router-dom';
-import { StockCompare } from './StockCompare';
+import { StockMarketChartTabs } from '../StocketmarketChartTabs';
+import { StockCompare } from '../StockCompare';
+import { Fullscreen } from '../Fullscreen';
+import { LoadingStockMarketController } from './loading';
 
 export const StockmarketChartController = () => {
-  const { period, onChangePeriod, symbol } = useStockerMarketTracker();
+  const { period, onChangePeriod, IS_LOADING, IS_SUCCESS } =
+    useStockerMarketTracker();
   const [localPeriod, setLocalPeriod] = useState(period);
 
   const handleChangePeriodValue = (value: string) => {
@@ -14,12 +15,12 @@ export const StockmarketChartController = () => {
     onChangePeriod(value);
   };
 
-  return (
+  return IS_LOADING ? (
+    <LoadingStockMarketController />
+  ) : (
     <div className="flex justify-between p-5">
-      <div>
-        <Link to={`/chart?symbol=${symbol}`} target="_blank">
-          Fullscreen
-        </Link>
+      <div className="flex space-x-3">
+        <Fullscreen />
         <StockCompare />
       </div>
       <StockMarketChartTabs

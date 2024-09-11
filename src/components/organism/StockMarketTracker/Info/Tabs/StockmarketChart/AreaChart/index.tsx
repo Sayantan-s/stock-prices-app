@@ -1,12 +1,17 @@
 import { useStockerMarketTracker } from '@components/organism/StockMarketTracker';
 import { ApexOptions } from 'apexcharts';
 import * as ApexChart from 'react-apexcharts';
+import { LoadingAreaChart } from './loading';
 
 const PRIMARY_COLOR = '#4a40ee';
 const SECONDARY_COLOR = '#e9eaed';
 
 export const Chart = () => {
-  const { state: timeseries, IS_STATE_POPULATED } = useStockerMarketTracker();
+  const {
+    state: timeseries,
+    IS_SUCCESS,
+    IS_LOADING,
+  } = useStockerMarketTracker();
 
   // console.log(timeseries, 'DATA');
 
@@ -125,14 +130,14 @@ export const Chart = () => {
     {
       name: 'Price',
       type: 'area',
-      data: IS_STATE_POPULATED
+      data: IS_SUCCESS
         ? timeseries.dates.map((date) => timeseries.time_series[date].price)
         : [],
     },
     {
       name: 'Change',
       type: 'column',
-      data: IS_STATE_POPULATED
+      data: IS_SUCCESS
         ? timeseries.dates.map((date) =>
             Math.floor(timeseries.time_series[date].change),
           )
@@ -140,11 +145,11 @@ export const Chart = () => {
     },
   ];
 
-  console.log(CHART_SERIES, IS_STATE_POPULATED);
-
   return (
     <div className="w-full">
-      {IS_STATE_POPULATED ? (
+      {IS_LOADING || !IS_SUCCESS ? (
+        <LoadingAreaChart />
+      ) : (
         <ApexChart.default
           options={CHART_OPTIONS}
           series={CHART_SERIES}
@@ -152,7 +157,7 @@ export const Chart = () => {
           width="100%"
           height={'auto'}
         />
-      ) : null}
+      )}
     </div>
   );
 };
