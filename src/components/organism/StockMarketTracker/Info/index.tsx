@@ -1,28 +1,34 @@
 import * as Tabs from '@radix-ui/react-tabs';
-import { StockMarketChart } from './Tabs/StockmarketChart';
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { motion } from 'framer-motion';
+import { NoOp } from './Tabs/StockmarketChart/NoOp';
+
+const StockMarketChart = lazy(() => import('./Tabs/StockmarketChart/index'));
 
 const TABS: Record<string, { value: string; content: React.ReactNode }> = {
   Summary: {
     value: 'SUMMARY',
-    content: 'Summary',
+    content: <NoOp name="Summary" />,
   },
   Chart: {
     value: 'CHART',
-    content: <StockMarketChart />,
+    content: (
+      <Suspense>
+        <StockMarketChart />
+      </Suspense>
+    ),
   },
   Statistics: {
     value: 'STATISTICS',
-    content: 'Statistics',
+    content: <NoOp name="Statistics" />,
   },
   Analysis: {
     value: 'ANALYSIS',
-    content: 'Statistics',
+    content: <NoOp name="Analysis" />,
   },
   Settings: {
     value: 'SETTINGS',
-    content: 'Settings',
+    content: <NoOp name="Settings" />,
   },
 };
 
@@ -33,12 +39,12 @@ export const Info = () => {
 
   return (
     <Tabs.Root value={activeTab} onValueChange={setActive}>
-      <Tabs.List className="border-b border-neutral-100">
+      <Tabs.List className="border-b border-neutral-100 md:block flex">
         {TabNames.map((tabKey) => (
           <Tabs.Trigger
             key={tabKey}
             value={TABS[tabKey].value}
-            className={`relative p-3 min-w-28 ${activeTab === TABS[tabKey].value ? 'text-neutral-900' : ' text-neutral-600'}`}
+            className={`relative p-3 md:min-w-28 min-w-10 text-sm md:text-base flex-1 ${activeTab === TABS[tabKey].value ? 'text-neutral-900' : ' text-neutral-600'}`}
           >
             {tabKey}
             {activeTab === TABS[tabKey].value ? (

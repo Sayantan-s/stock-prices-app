@@ -1,43 +1,39 @@
 import { Dialog } from '@components/molecule/Dialog';
 import { PERIOD, periods } from '@components/organism/StockMarketTracker/type';
-import { useState } from 'react';
+import { FC, Suspense, lazy } from 'react';
 import { StockSelector } from './StockSelector';
 import { useSingleStockTimeSeries } from '@api/timeseries';
-import Chart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
+import { StockCompareTable } from './StockCompareTable';
+import { IProps } from './type';
+
+const Chart = lazy(() => import('react-apexcharts'));
+
 const PRIMARY_COLOR = '#4a40ee';
-const SECONDARY_COLOR = '#e9eaed';
+const SECONDARY_COLOR = '#43a448';
+const YTD_PERIOD = periods[periods.length - 2];
 
-export const StockCompare = () => {
-  const [stocks, setStocks] = useState({ entity1: '', entity2: '' });
-  const [period, setPeriod] = useState('YTD');
-
+export const StockCompare: FC<IProps> = ({ onChange, ...stocks }) => {
   const entity1Query = useSingleStockTimeSeries(
-    { period, symbol: stocks.entity1 },
-    { enabled: !!stocks.entity1 },
+    { period: YTD_PERIOD, symbol: stocks.entity1 },
+    { enabled: !!stocks.entity1, refetchOnMount: true },
   );
 
   const entity2Query = useSingleStockTimeSeries(
-    { period, symbol: stocks.entity2 },
-    { enabled: !!stocks.entity2 },
+    { period: YTD_PERIOD, symbol: stocks.entity2 },
+    { enabled: !!stocks.entity2, refetchOnMount: true },
   );
 
   const { data: entityOneData, isLoading: isEntityOneLoading } = entity1Query;
   const { data: entityTwoData, isLoading: isEntityTwoLoading } = entity2Query;
 
-  const onSelectEntityOne = (v: string) => {
-    const value = v as PERIOD;
-    setStocks((prevState) => ({ ...prevState, entity1: value }));
-  };
-
-  const onSelectEntityTwo = (v: string) => {
-    const value = v as PERIOD;
-    setStocks((prevState) => ({ ...prevState, entity2: value }));
-  };
-
-  const dates = entityOneData?.time_series
+  const dates1 = entityOneData?.time_series
     ? Object.keys(entityOneData.time_series)
+    : [];
+
+  const dates2 = entityTwoData?.time_series
+    ? Object.keys(entityTwoData.time_series)
     : [];
 
   const CHART_OPTIONS: ApexOptions = {
@@ -58,7 +54,7 @@ export const StockCompare = () => {
     },
     markers: {
       size: 0,
-      colors: PRIMARY_COLOR,
+      colors: [PRIMARY_COLOR, SECONDARY_COLOR],
       strokeColors: ['#fff'],
     },
     legend: {
@@ -66,7 +62,7 @@ export const StockCompare = () => {
     },
     fill: {
       type: 'gradient',
-      colors: [PRIMARY_COLOR],
+      colors: [PRIMARY_COLOR, SECONDARY_COLOR],
       gradient: {
         shadeIntensity: 1,
         inverseColors: false,
@@ -76,7 +72,7 @@ export const StockCompare = () => {
       },
     },
     xaxis: {
-      categories: dates,
+      categories: dates1,
       axisBorder: { show: false },
       axisTicks: { show: false },
       labels: { show: false, offsetX: 0, offsetY: 0 },
@@ -94,7 +90,7 @@ export const StockCompare = () => {
       },
     },
     stroke: {
-      curve: 'straight',
+      curve: 'smooth',
       width: 2,
       colors: [PRIMARY_COLOR, SECONDARY_COLOR],
     },
@@ -134,20 +130,27 @@ export const StockCompare = () => {
       name: stocks.entity1,
       type: 'area',
       data: entityOneData
-        ? dates.map((date) => entityOneData.time_series[date].price)
+        ? dates1.map((date) => entityOneData.time_series[date].price)
         : [],
     },
     {
       name: stocks.entity2,
       type: 'area',
       data: entityTwoData
-        ? dates.map((date) => entityTwoData!.time_series[date].price)
+        ? dates2.map((date) => entityTwoData.time_series[date].price)
         : [],
     },
   ];
 
-  //   console.log(JSON.stringify(entityOneData), 'ENTITY ONE');
-  // console.log(JSON.stringify(entityTwoData), 'ENTITY TWO');
+  const onSelectEntityOne = (v: string) => {
+    const value = v as PERIOD;
+    onChange({ ...stocks, entity1: value });
+  };
+
+  const onSelectEntityTwo = (v: string) => {
+    const value = v as PERIOD;
+    onChange({ ...stocks, entity2: value });
+  };
 
   return (
     <Dialog>
@@ -155,58 +158,52 @@ export const StockCompare = () => {
         <PlusCircledIcon />
         <span>Compare</span>
       </Dialog.Trigger>
-      <Dialog.Content className="bg-white border-none">
-        <Dialog.Header className="p-6">
-          <Dialog.Title>Compare Stock Performance</Dialog.Title>
-          <Dialog.Description>
+      <Dialog.Content className="bg-white border-none md:w-auto md:h-auto w-screen h-screen">
+        <Dialog.Header>
+          <Dialog.Title className="text-neutral-900 px-6 pt-6 space-x-1">
+            <span> Compare Stock Performance </span>
+            <span className="text-tertiary-500 bg-tertiary-100 text-xs font-normal border border-tertiary-200 px-2 py-1 rounded-full">
+              YTD
+            </span>
+          </Dialog.Title>
+          <Dialog.Description className="text-neutral-500 px-6 pt-2">
             You are about to compare the selected stocks. This will display
             their recent performance, key metrics, and trends side by side. Make
             sure both stocks are correctly selected to get accurate insights.
           </Dialog.Description>
-          <div className="flex">
+          <div className="flex pt-4 space-x-2 text-sm px-6">
             <StockSelector
-              formerStockValue={stocks.entity1}
-              onChange={onSelectEntityTwo}
-            />
-            <StockSelector
+              value={stocks.entity1}
               formerStockValue={stocks.entity2}
               onChange={onSelectEntityOne}
             />
+            <StockSelector
+              value={stocks.entity2}
+              formerStockValue={stocks.entity1}
+              onChange={onSelectEntityTwo}
+            />
           </div>
-          <div className="flex space-x-3">
-            <div>
-              <p>{entityOneData?.price}</p>
-              <p>{entityOneData?.previous_close}</p>
-              <p>
-                {entityOneData?.change} ({entityOneData?.change_percent}%)
-              </p>
-              <p>{entityOneData?.pre_or_post_market}</p>
-              <p>
-                {entityOneData?.pre_or_post_market_change} (
-                {entityOneData?.pre_or_post_market_change_percent}%)
-              </p>
-            </div>
-            {/* <div>
-              <p>{entityTwoData?.price}</p>
-              <p>{entityTwoData?.previous_close}</p>
-              <p>
-                {entityTwoData?.change} ({entityTwoData?.change_percent}%)
-              </p>
-              <p>{entityTwoData?.pre_or_post_market}</p>
-              <p>
-                {entityTwoData?.pre_or_post_market_change} (
-                {entityTwoData?.pre_or_post_market_change_percent}%)
-              </p>
-            </div> */}
-          </div>
+          <StockCompareTable>
+            <StockCompareTable.Heading />
+            <StockCompareTable.Row
+              {...entityOneData}
+              isLoading={isEntityOneLoading}
+            />
+            <StockCompareTable.Row
+              {...entityTwoData}
+              isLoading={isEntityTwoLoading}
+            />
+          </StockCompareTable>
         </Dialog.Header>
-        <Chart
-          type="area"
-          width={'100%'}
-          height={'auto'}
-          options={CHART_OPTIONS}
-          series={CHART_SERIES}
-        />
+        <Suspense>
+          <Chart
+            type="area"
+            width={'100%'}
+            height={'auto'}
+            options={CHART_OPTIONS}
+            series={CHART_SERIES}
+          />
+        </Suspense>
       </Dialog.Content>
     </Dialog>
   );

@@ -1,11 +1,17 @@
-import { Chart } from './AreaChart';
+import { Suspense, lazy } from 'react';
 import { StockmarketChartController } from './StockmarketChartController';
 
-export const StockMarketChart = () => {
+const Chart = lazy(() => import('./AreaChart'));
+
+const StockMarketChart = () => {
   return (
-    <div className="flex flex-col content-between relative mt-8">
+    <div className="flex flex-col content-between relative md:mt-8 mt-2">
       <StockmarketChartController />
-      <Chart />
+      <Suspense>
+        <Chart />
+      </Suspense>
     </div>
   );
 };
+
+export default StockMarketChart;
