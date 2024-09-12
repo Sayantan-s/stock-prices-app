@@ -3,13 +3,14 @@ import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { IProps } from './type';
 import { periods } from '@components/organism/StockMarketTracker/type';
 import { motion } from 'framer-motion';
+import { twMerge } from 'tailwind-merge';
 
-const Root: FC<IProps> = ({ value, onChange }) => {
+const Root: FC<IProps> = ({ value, onChange, className }) => {
   const handleChangePeriodValue = (v: string) => onChange(v);
 
   return (
     <ToggleGroup.Root
-      className="flex space-x-1"
+      className={twMerge('flex space-x-1', className)}
       type="single"
       value={value}
       onValueChange={handleChangePeriodValue}
@@ -25,7 +26,7 @@ const Root: FC<IProps> = ({ value, onChange }) => {
           {value === period ? (
             <motion.div
               layoutId="active-pill"
-              className="bg-primary-600 inset-0 rounded-md absolute z-50 flex items-center justify-center  text-neutral-50"
+              className="bg-primary-600 shadow shadow-primary-900/20 inset-0 rounded-md absolute z-50 flex items-center justify-center  text-neutral-50"
             >
               {period}
             </motion.div>

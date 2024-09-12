@@ -6,7 +6,7 @@ import { LoadingAreaChart } from './loading';
 const PRIMARY_COLOR = '#4a40ee';
 const SECONDARY_COLOR = '#e9eaed';
 
-export const Chart = () => {
+const Chart = () => {
   const {
     state: timeseries,
     IS_SUCCESS,
@@ -161,3 +161,5 @@ export const Chart = () => {
     </div>
   );
 };
+
+export default Chart;

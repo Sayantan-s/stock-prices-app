@@ -1,16 +1,7 @@
 import { ITimeSeriesOutput, ITimeSeriesState } from '@api/timeseries/type';
 import { UseQueryResult } from '@tanstack/react-query';
 
-export const periods = [
-  '1D',
-  '5D',
-  '1M',
-  '6M',
-  'YTD',
-  '1Y',
-  '5Y',
-  'MAX',
-] as const;
+export const periods = ['1D', '5D', '1M', '6M', 'YTD', '1Y', 'MAX'] as const;
 export type PERIOD = (typeof periods)[number];
 export const symbols = ['AAPL', 'MSFT:NASDAQ', 'MSFT', 'DJI', 'VTSAX'] as const;
 export type SYMBOL = (typeof symbols)[number];

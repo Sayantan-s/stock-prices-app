@@ -51,7 +51,7 @@ const Root: FC<PropsWithChildren<IProps>> = ({
         IS_LOADING: JSON.stringify(timeseriesData) === '{}' && isFetching,
       }}
     >
-      <div className="bg-white overflow-hidden text-sm shadow-lg shadow-slate-100/50 border border-slate-100 rounded-xl w-full max-w-[50rem] h-[50rem]">
+      <div className="bg-white h-screen lg:overflow-hidden text-sm shadow-lg lg:shadow-neutral-100/50 lg:border lg:border-neutral-100 lg:rounded-xl w-full lg:max-w-[50rem] lg:h-[50rem]">
         {children}
       </div>
     </TimeSeriesTrackerContext.Provider>

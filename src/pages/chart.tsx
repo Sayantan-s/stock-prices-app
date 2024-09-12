@@ -101,6 +101,12 @@ export const FullScreenChart = () => {
           show: false,
         },
       },
+      padding: {
+        left: -14,
+        right: -4,
+        top: 0,
+        bottom: 0,
+      },
     },
     tooltip: {
       enabled: true,
@@ -133,19 +139,27 @@ export const FullScreenChart = () => {
   if (!symbol) throw new Error('There is no such symbol!');
 
   return (
-    <div>
-      <StockMarketChartTabs value={period} onChange={handleChangePeriod} />
-      {isLoading && JSON.stringify(data) === '{}' ? (
-        'loading...'
-      ) : data && !isLoading ? (
-        <ApexChart.default
-          options={OPTIONS}
-          series={SERIES}
-          type="candlestick"
-          width="100%"
-          height={'800px'}
-        />
-      ) : null}
+    <div className="w-full h-screen flex items-center justify-center">
+      <div className="w-full lg:max-w-[60rem] lg:h-[45rem] h-screen lg:border bg-white overflow-hidden text-sm lg:shadow-lg lg:shadow-slate-100/50 lg:border-neutral-100 lg:rounded-xl">
+        <div className="flex justify-center">
+          <StockMarketChartTabs
+            value={period}
+            onChange={handleChangePeriod}
+            className="shadow shadow-neutral-100/50 mt-3 p-3 border border-neutral-100 rounded-xl"
+          />
+        </div>
+        {isLoading && JSON.stringify(data) === '{}' ? (
+          'loading...'
+        ) : data && !isLoading ? (
+          <ApexChart.default
+            options={OPTIONS}
+            series={SERIES}
+            type="candlestick"
+            width="100%"
+            height={'500px'}
+          />
+        ) : null}
+      </div>
     </div>
   );
 };
