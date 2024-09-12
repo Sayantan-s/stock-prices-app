@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const LoadingQuote = () => {
   return (
     <div className="p-5">

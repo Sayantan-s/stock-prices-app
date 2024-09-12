@@ -4,6 +4,7 @@
 [x] Show CandleStick Graph on fullscreen when fullscreen<br />
 [x] Show Comparison with other symbols <br />
 [x] Reusibility of "< StockMarketTracker />" component <br />
+[x] Responsiveness <br />
 
 ## Techstack
 
