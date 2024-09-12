@@ -1,7 +1,7 @@
 export const LoadingStockMarketController = () => {
   return (
-    <div className="flex justify-between p-5">
-      <div className="space-x-3 flex">
+    <div className="flex  flex-col md:flex-row md:justify-between items-center p-5">
+      <div className="space-x-3 flex md:order-1 order-2">
         {new Array(2).fill(true).map((_, index) => (
           <div
             key={index}
@@ -9,7 +9,7 @@ export const LoadingStockMarketController = () => {
           />
         ))}
       </div>
-      <div className="space-x-1 flex">
+      <div className="space-x-1 flex order-1 md:order-2 mb-4 md:mb-0">
         {new Array(8).fill(true).map((_, index) => (
           <div
             key={index}

@@ -59,13 +59,13 @@ export const getStockTimeSeriesEquity = async (
   params: IStockAPIEndpintsInputs[IStockAPIEndpints.timeSeries]['params'],
 ) => {
   try {
-    // const res = await api.get<
-    //   IStockAPIEndpintsOutputs[IStockAPIEndpints.timeSeriesEquity]
-    // >(IStockAPIEndpints.timeSeriesEquity, {
-    //   params: params,
-    // });
-    // return res.data.data;
-    return equity.data;
+    const res = await api.get<
+      IStockAPIEndpintsOutputs[IStockAPIEndpints.timeSeriesEquity]
+    >(IStockAPIEndpints.timeSeriesEquity, {
+      params: params,
+    });
+    return res.data.data;
+    // return equity.data;
   } catch (error) {
     if (isAxiosError(error)) {
       console.log(error);
