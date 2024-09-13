@@ -5,11 +5,17 @@ import { StockCompare } from '../StockCompare';
 import { Fullscreen } from '../Fullscreen';
 import { LoadingStockMarketController } from './loading';
 import { IStockEntities } from '../StockCompare/type';
+import { symbols } from '@components/organism/StockMarketTracker/type';
+
+const AAPL = symbols[0];
 
 export const StockmarketChartController = () => {
   const { period, onChangePeriod, IS_LOADING } = useStockerMarketTracker();
   const [localPeriod, setLocalPeriod] = useState(period);
-  const [stocks, setStocks] = useState({ entity1: '', entity2: '' });
+  const [stocks, setStocks] = useState({
+    entity1: AAPL as string,
+    entity2: '',
+  });
 
   const handleChangePeriodValue = (value: string) => {
     setLocalPeriod(value);
