@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
@@ -56,6 +58,9 @@ module.exports = {
           900: '#214624',
           950: '#0d260f',
         },
+      },
+      fontFamily: {
+        sans: ['DM Sans', ...defaultTheme.fontFamily.sans],
       },
     },
   },
