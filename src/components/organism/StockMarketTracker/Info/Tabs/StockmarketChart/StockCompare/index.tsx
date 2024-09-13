@@ -160,11 +160,12 @@ export const StockCompare: FC<IProps> = ({ onChange, ...stocks }) => {
       </Dialog.Trigger>
       <Dialog.Content className="bg-white border-none md:w-auto md:h-auto w-screen h-screen">
         <Dialog.Header>
-          <Dialog.Title className="text-neutral-900 px-6 pt-6 space-x-1">
+          <Dialog.Title className="text-neutral-900 px-6 pt-6 space-x-2 items-center flex">
             <span> Compare Stock Performance </span>
-            <span className="text-tertiary-500 bg-tertiary-100 text-xs font-normal border border-tertiary-200 px-2 py-1 rounded-full">
+            <div className="text-tertiary-500 w-10 text-center flex items-center justify-center bg-tertiary-100 text-xs font-normal border border-tertiary-200 px-2 py-0.5 rounded-full">
+              {/* <span className="block w-1 h-1 rounded-full bg-tertiary-500 mr-[0.2rem]" /> */}
               1Y
-            </span>
+            </div>
           </Dialog.Title>
           <Dialog.Description className="text-neutral-500 px-6 pt-2">
             You are about to compare the selected stocks. This will display
