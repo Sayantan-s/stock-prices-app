@@ -163,7 +163,7 @@ export const StockCompare: FC<IProps> = ({ onChange, ...stocks }) => {
           <Dialog.Title className="text-neutral-900 px-6 pt-6 space-x-1">
             <span> Compare Stock Performance </span>
             <span className="text-tertiary-500 bg-tertiary-100 text-xs font-normal border border-tertiary-200 px-2 py-1 rounded-full">
-              YTD
+              1Y
             </span>
           </Dialog.Title>
           <Dialog.Description className="text-neutral-500 px-6 pt-2">
